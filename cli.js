@@ -11,11 +11,14 @@ function processInput(input) {
         const rowId = row['rowId'];
         const array = getRowForProcess(row['json']);
 
+        // split array into same size chunks, if chunk is not same size it's not valid
         const chunkSize = Math.sqrt(array.length);
         if (Number.isInteger(chunkSize)) {
             for (let i = 0; i < array.length; i += chunkSize) {
                 table.push(array.slice(i, i + chunkSize));
             }
+
+            // rotate input and push results to output
             const rotated = rotateCounterClockwise(table);
             result.push({ id: rowId, json: rotated, is_valid: true });
 
