@@ -3,11 +3,10 @@ const csv = require('fast-csv');
 const csvWriter = require('csv-writer');
 
 function processInput(input) {
-
     const result = [];
+
     input.forEach(row => {
         const table = [];
-
         const rowId = row.rowId;
         const array = convertRowToArray(row.json);
 
@@ -41,6 +40,7 @@ function runProcess() {
 
 async function readCSV(fileName) {
     let array = [];
+
     return new Promise((resolve, reject) => {
         fs.createReadStream(fileName)
             .pipe(csv.parse({
