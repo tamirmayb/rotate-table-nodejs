@@ -5,27 +5,22 @@ const csvWriter = require('csv-writer');
 function processInput(input) {
 
     const result = [];
-    input.forEach(rowWithId => {
-        const rowWithIdSplit = rowWithId.split(':');
+    input.forEach(row => {
         const table = [];
 
-        if(rowWithIdSplit.length === 2) {
-            const rowId = rowWithIdSplit[0];
-            const array = getRowForProcess(rowWithIdSplit[1]);
+        const rowId = row['rowId'];
+        const array = getRowForProcess(row['json']);
 
-            const chunkSize = Math.sqrt(array.length);
-            if (Number.isInteger(chunkSize)) {
-                for (let i = 0; i < array.length; i += chunkSize) {
-                    table.push(array.slice(i, i + chunkSize));
-                }
-                const rotated = rotateCounterClockwise(table);
-                result.push({ id: rowId, json: rotated, is_valid: true });
-
-            } else {
-                result.push({ id: rowId, json: '[]', is_valid: false });
+        const chunkSize = Math.sqrt(array.length);
+        if (Number.isInteger(chunkSize)) {
+            for (let i = 0; i < array.length; i += chunkSize) {
+                table.push(array.slice(i, i + chunkSize));
             }
+            const rotated = rotateCounterClockwise(table);
+            result.push({ id: rowId, json: rotated, is_valid: true });
+
         } else {
-            console.warn('invalid input: ', rowWithId);
+            result.push({ id: rowId, json: '[]', is_valid: false });
         }
     });
     return result;
@@ -51,10 +46,7 @@ async function readCSV(fileName) {
             }))
             .on('error', error => reject(error))
             .on('data', function (data) {
-                array.push(data['id']
-                    .concat(':')
-                    .concat(data['json']
-                    ));
+                array.push({ rowId: data['id'], json: data['json'] })
             })
             .on('end', () => {
                 resolve(array);
