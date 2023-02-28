@@ -46,7 +46,10 @@ async function readCSV(fileName) {
             }))
             .on('error', error => reject(error))
             .on('data', function (data) {
-                array.push({ rowId: data['id'], json: data['json'] })
+                array.push({
+                    rowId: data['id'],
+                    json: data['json']
+                })
             })
             .on('end', () => {
                 resolve(array);
