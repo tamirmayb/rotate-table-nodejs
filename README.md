@@ -5,7 +5,7 @@
 #### 1. Clone project
 
 ```bash
-$ git clone https://github.com/Capstone-C1SE04-TI/backend-node-mongodb.git
+$ https://github.com/tamirmayb/rotate-table-nodejs.git
 ```
 
 #### 2. Install dependencies
