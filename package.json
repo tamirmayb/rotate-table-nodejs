@@ -1,0 +1,24 @@
+{
+  "name": "rotate-table-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamirmayb/rotate-table-nodejs.git"
+  },
+  "author": "Tamir Mayblat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tamirmayb/rotate-table-nodejs/issues"
+  },
+  "homepage": "https://github.com/tamirmayb/rotate-table-nodejs#readme",
+  "dependencies": {
+    "csv-stream": "^0.2.0",
+    "csv-writer": "^1.6.0",
+    "fast-csv": "^4.3.6"
+  }
+}
