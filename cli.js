@@ -9,7 +9,7 @@ function processInput(input) {
         const table = [];
 
         const rowId = row.rowId;
-        const array = getRowForProcess(row.json);
+        const array = convertRowToArray(row.json);
 
         // split array into same size chunks, if chunk is not same size it's not valid
         const chunkSize = Math.sqrt(array.length);
@@ -92,7 +92,7 @@ function rotateCounterClockwise(table) {
     return rotatedTable;
 }
 
-function getRowForProcess(row) {
+function convertRowToArray(row) {
     return row
         .slice(1, -1)
         .replaceAll(' ', '')
