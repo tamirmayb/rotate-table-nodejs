@@ -1,7 +1,6 @@
 import { createReadStream } from "fs";
 import { parse } from "fast-csv";
 import { format } from "@fast-csv/format";
-import { rotateCounterClockwise } from "./rotators.js";
 
 export interface Input {
   id: string
@@ -14,7 +13,7 @@ export interface Output {
   is_valid: boolean
 }
 
-export async function runProcess (): Promise<void> {
+async function runProcess (): Promise<void> {
   const fileName = process.argv.slice(2)[0];
 
   const input = await readCSV(fileName);
@@ -90,10 +89,40 @@ function convertRowToArray (row: string): string[] {
   return row
     .slice(1, -1)
     .replace(' ', '')
+    .replace('[', '')
+    .replace(']', '')
     .split(',')
 }
 
-await runProcess();
+export function rotateCounterClockwise(table: string[][]): string[][] {
+  const ret: string[][] = table.map(c => c.map(() => "")); // blank copy
+  const rows = table.length;
+  if (rows === 0) return ret;
+  const cols = table[0].length;
+
+  if (!table.every(l => l.length === cols)) throw new Error("Input table is not rectangular");
+  const stationaryCell = (rows % 2 !== 0) && (cols % 2 !== 0) ? (Math.min(rows, cols) - 1) / 2 : -1;
+
+  for (let r = 0; r < rows; r++) {
+    const nr = rows - 1 - r;
+    for (let c = 0; c < cols; c++) {
+
+      const nc = cols - 1 - c;
+      const cell = Math.min(r, nr, c, nc);
+      let [rNew, cNew] = [r, c];
+      if (cell !== stationaryCell) {
+        if (nr === cell && nc !== cell) cNew++; // bottom row moves right (except for rightmost)
+        else if (c === cell) rNew++; // left column moves down
+        else if (r === cell) cNew--; // top row moves left
+        else rNew--; // right column moves up
+      }
+      ret[rNew][cNew] = table[r][c];
+    }
+  }
+  return ret;
+}
+
+runProcess().then();
 
 // 1 2 3  ==>   2 3 6
 // 4 5 6        1 5 9
