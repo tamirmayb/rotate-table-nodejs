@@ -122,7 +122,7 @@ export function rotateCounterClockwise(table: string[][]): string[][] {
   return ret;
 }
 
-runProcess().then();
+runProcess();
 
 // 1 2 3  ==>   2 3 6
 // 4 5 6        1 5 9
