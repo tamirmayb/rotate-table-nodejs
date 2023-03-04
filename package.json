@@ -1,24 +1,46 @@
 {
-  "name": "rotate-table-nodejs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "cli.js",
+  "name": "node-typescript-table-totation",
+  "version": "0.0.0",
+  "description": "CSV input table rotation",
+  "type": "module",
+  "engines": {
+    "node": ">= 18.12 <19"
+  },
+  "devDependencies": {
+    "@types/jest": "~29.2",
+    "@types/node": "~18",
+    "@typescript-eslint/eslint-plugin": "~5.44",
+    "@typescript-eslint/parser": "~5.44",
+    "eslint": "~8.28",
+    "eslint-config-prettier": "~8.5",
+    "eslint-plugin-jest": "~27.1",
+    "fast-csv": "^4.3.6",
+    "jest": "~29.3",
+    "prettier": "~2.8",
+    "rimraf": "~3.0",
+    "ts-jest": "~29.0",
+    "tsutils": "~3.21",
+    "typescript": "~4.9"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/src/cli.js input.csv",
+    "clean": "rimraf coverage build tmp",
+    "prebuild": "npm run lint",
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -w -p tsconfig.json",
+    "build:release": "npm run clean && tsc -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts --ext .mts",
+    "test": "jest --coverage",
+    "prettier": "prettier --config .prettierrc --write .",
+    "test:watch": "jest --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tamirmayb/rotate-table-nodejs.git"
-  },
-  "author": "Tamir Mayblat",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tamirmayb/rotate-table-nodejs/issues"
-  },
-  "homepage": "https://github.com/tamirmayb/rotate-table-nodejs#readme",
+  "author": "Tamir Mayblat (tamirmayb@gmail.com)",
+  "license": "Apache-2.0",
   "dependencies": {
-    "csv-stream": "^0.2.0",
-    "csv-writer": "^1.6.0",
-    "fast-csv": "^4.3.6"
+    "ts-node": "^10.9.1",
+    "tslib": "~2.4"
+  },
+  "volta": {
+    "node": "18.12.1"
   }
 }
