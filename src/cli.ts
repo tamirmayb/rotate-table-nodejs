@@ -95,31 +95,32 @@ function convertRowToArray (row: string): string[] {
 }
 
 export function rotateCounterClockwise(table: string[][]): string[][] {
-  const ret: string[][] = table.map(c => c.map(() => "")); // blank copy
+  const result: string[][] = table.map(c => c.map(() => "")); // empty table copy as result
   const rows = table.length;
-  if (rows === 0) return ret;
+  if (rows === 0) return result;
   const cols = table[0].length;
 
+  // check table is a rectangular (just in case this function is used as standalone)
   if (!table.every(l => l.length === cols)) throw new Error("Input table is not rectangular");
   const stationaryCell = (rows % 2 !== 0) && (cols % 2 !== 0) ? (Math.min(rows, cols) - 1) / 2 : -1;
 
-  for (let r = 0; r < rows; r++) {
-    const nr = rows - 1 - r;
-    for (let c = 0; c < cols; c++) {
+  for (let currRow = 0; currRow < rows; currRow++) {
+    const mirrorRow = rows - 1 - currRow;
+    for (let currCol = 0; currCol < cols; currCol++) {
 
-      const nc = cols - 1 - c;
-      const cell = Math.min(r, nr, c, nc);
-      let [rNew, cNew] = [r, c];
+      const mirrorCol = cols - 1 - currCol;
+      const cell = Math.min(currRow, mirrorRow, currCol, mirrorCol);
+      let [newRow, newCol] = [currRow, currCol];
       if (cell !== stationaryCell) {
-        if (nr === cell && nc !== cell) cNew++; // bottom row moves right (except for rightmost)
-        else if (c === cell) rNew++; // left column moves down
-        else if (r === cell) cNew--; // top row moves left
-        else rNew--; // right column moves up
+        if (mirrorRow === cell && mirrorCol !== cell) newCol++; // bottom row moves right (except for rightmost)
+        else if (currCol === cell) newRow++; // left column moves down
+        else if (currRow === cell) newCol--; // top row moves left
+        else newRow--; // right column moves up
       }
-      ret[rNew][cNew] = table[r][c];
+      result[newRow][newCol] = table[currRow][currCol];
     }
   }
-  return ret;
+  return result;
 }
 
 runProcess();
@@ -127,3 +128,7 @@ runProcess();
 // 1 2 3  ==>   2 3 6
 // 4 5 6        1 5 9
 // 7 8 9        4 7 8
+
+
+
+
