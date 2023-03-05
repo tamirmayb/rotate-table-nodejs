@@ -95,7 +95,7 @@ function convertRowToArray (row: string): string[] {
 }
 
 export function rotateCounterClockwise(table: string[][]): string[][] {
-  const result: string[][] = table.map(c => c.map(() => "")); // empty table copy as result
+  const result: string[][] = table.map(c => c.map(() => "")); // create same size empty result table
   const rows = table.length;
   if (rows === 0) return result;
   const cols = table[0].length;
@@ -110,6 +110,7 @@ export function rotateCounterClockwise(table: string[][]): string[][] {
 
       const mirrorCol = cols - 1 - currCol;
       const cell = Math.min(currRow, mirrorRow, currCol, mirrorCol);
+
       let [newRow, newCol] = [currRow, currCol];
       if (cell !== stationaryCell) {
         if (mirrorRow === cell && mirrorCol !== cell) newCol++; // bottom row moves right (except for rightmost)
